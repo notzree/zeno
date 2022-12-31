@@ -2,6 +2,7 @@ import Head from "next/head";
 import Display from "./components/display";
 import Message from "./components/messages";
 import { PrismaClient } from "@prisma/client";
+import { useState } from "react";
 const prisma = new PrismaClient();
 
 export async function getServerSideProps() {
@@ -17,7 +18,7 @@ export async function getServerSideProps() {
 
 
 export default function Home({initialMessages }) {
-
+  const [messageState, setMessageState] = useState(initialMessages);
   return (
     <>
       <Head>
@@ -29,9 +30,9 @@ export default function Home({initialMessages }) {
       <main>
         <div className=" flex justify-center">
           <div className=" mt-9">
-          <Display propUsers={initialMessages} />
+          <Display propUsers={messageState} />
           <div className="mt-9">
-          <Message/>
+          <Message />
           </div>
           </div>
         </div>

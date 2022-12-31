@@ -14,18 +14,45 @@ async function saveMessages(messageInfo) {
 
 }
 
-const handleSubmit = async (event) =>{
-     try{
-        event.preventDefault();
-        const messageBody = {Message: event.target.Message.value, authorId: 1}
-       saveMessages(messageBody);
-    }catch(e){
-        console.log(e);
-    }
-}
+
 
 
 const Message = () => {
+
+  // useEffect(() => {
+  //   const listener = (event) => {
+  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //       console.log("Enter key was pressed. Run your function.");
+  //       event.preventDefault();
+  //       try {
+  //         saveMessages(messageData.value);
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     }
+  //   };
+  //   document.addEventListener("keydown", listener);
+  //   return () => {
+  //     document.removeEventListener("keydown", listener);
+  //   };
+  // }, []);
+
+
+
+
+
+
+  const handleSubmit = async (event) =>{
+    try{
+       event.preventDefault();
+       const messageBody = {Message: event.target.Message.value, authorId: 1}
+      saveMessages(messageBody);
+      
+
+   }catch(e){
+       console.log(e);
+   }
+}
   return (
     <>
       <div className="mockup-code">
