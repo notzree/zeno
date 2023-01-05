@@ -53,9 +53,6 @@ const Message = ({ propMsg,propUserId,propSession}) => {
       refreshData();
     }
   },[propUserId])
-  console.log(propUserId);
-  console.log(propMsg);
-  console.log(realMsg);
   return (
     <>
       <div className="mockup-code overflow-hidden break ">
