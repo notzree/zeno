@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@next/font": "13.1.1",
-    "@prisma/client": "^4.8.0",
-    "@supabase/supabase-js": "^2.2.2",
+    "@supabase/auth-helpers-nextjs": "^0.5.2",
+    "@supabase/auth-helpers-react": "^0.3.1",
+    "@supabase/auth-ui-react": "^0.2.6",
+    "@supabase/supabase-js": "^2.2.3",
     "daisyui": "^2.46.0",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
@@ -22,7 +24,6 @@
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
-    "prisma": "^4.8.0",
     "tailwindcss": "^3.2.4"
   }
 }

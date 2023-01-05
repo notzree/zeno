@@ -1,71 +1,82 @@
-import { useEffect,useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
 async function saveMessages(messageInfo) {
-  
-  const response = await fetch('/api/message', {
+  const response = await fetch("/api/message", {
     method: "POST",
-    body: JSON.stringify(messageInfo)
-    
+    body: JSON.stringify(messageInfo),
   });
-   if (!response.ok) {
-     throw new Error(response.statusText);
-   }
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  document.getElementById("inputBox").value = "";
   return await response.json();
-
+  
 }
 
+const Message = ({ propMsg,propUserId,propSession}) => {
+  const [realMsg, setRealMsg] = useState(propMsg);
+
+  useEffect(() => {
+    
+    const listener = async(event) => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        event.preventDefault();
+        const temp = document.getElementById("inputBox").value;
+        const messageBody = {
+          Message: temp,
+          authorId: propUserId,
+        };
+       await saveMessages(messageBody);
+       setRealMsg([... realMsg, {Message: temp} ]);
+        
+
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [realMsg,propMsg]);
+
+  const router = useRouter();
+  // Call this function whenever you want to
+  // refresh props!
+  const refreshData = () => {
+    router.replace(router.asPath);
+    setRealMsg(propMsg);
+  }
 
 
 
-const Message = () => {
-
-  // useEffect(() => {
-  //   const listener = (event) => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("Enter key was pressed. Run your function.");
-  //       event.preventDefault();
-  //       try {
-  //         saveMessages(messageData.value);
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, []);
-
-
-
-
-
-
-  const handleSubmit = async (event) =>{
-    try{
-       event.preventDefault();
-       const messageBody = {Message: event.target.Message.value, authorId: 1}
-      saveMessages(messageBody);
-      
-
-   }catch(e){
-       console.log(e);
-   }
-}
+  useEffect(()=>{
+    if(realMsg!=propMsg|| realMsg==null){
+      refreshData();
+    }
+  },[propUserId])
+  console.log(propUserId);
+  console.log(propMsg);
+  console.log(realMsg);
   return (
     <>
-      <div className="mockup-code">
-        <form className=" form-control" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="Message"
-            placeholder=". . . "
-            className="input w-full max-w-sm input-primary"
-          ></input>
-          <button type = "submit" className="btn btn-primary">Submit</button>
-        </form>
-         
+      <div className="mockup-code overflow-hidden break ">
+        <ul className="">
+          {realMsg?.map((m,i) => (
+            <li key={i} className="w-96 break-normal overflow-hidden">
+              <pre data-prefix=">">
+                <code className="w-">
+                  {m.Message}
+                </code>
+              </pre>
+            </li>
+          ))}
+        </ul> 
+        <input
+          id="inputBox"
+          type="text"
+          name="Message"
+          placeholder="   ..."
+          className="input w-full max-w-sm input-ghost mt-2"
+        ></input>
       </div>
     </>
   );
