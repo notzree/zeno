@@ -1,6 +1,6 @@
-import Message from "./components/messages";
+import Message from "../components/messages";
 import {useEffect, useState } from "react";
-import Account from "./components/Account";
+import Account from "../components/Account";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from '@supabase/supabase-js'
