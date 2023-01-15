@@ -2,7 +2,7 @@ import Message from "./components/messages";
 import {useEffect, useState } from "react";
 import Account from "./components/Account";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSessionContext, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { createClient } from '@supabase/supabase-js'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
@@ -39,17 +39,15 @@ export async function getServerSideProps(ctx) {
 }
 export default function Home({ initialMessages,user }) {
   const [accountVisible, setAccountVisible] = useState(false);
-  const session = useSession();
+  //const session = useSession();
   const supabase = useSupabaseClient();
-
+  const { isLoading, session, error } = useSessionContext();
 
 
   const handleClick = ()=>{
     setAccountVisible(current=>!current);
   };
-  
-
-
+  console.log(session);
   return (
     <div className="flex justify-center min-w-full my-10">
       {!session ? (
@@ -64,7 +62,7 @@ export default function Home({ initialMessages,user }) {
           <Message propMsg={initialMessages} propUserId = {user.id} propSession= {session}/>
           <div className=" px-9">
             <button onClick={handleClick} className = "btn btn-ghost"> Account settings </button>
-            {accountVisible && (<Account session={session}/>)}
+            {accountVisible && !isLoading && (<Account session={session}/>)}
           </div>
         </div>
       )}

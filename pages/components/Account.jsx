@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,  } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
-export default function Account({ session }) {
+export default function Account({ session}) {
   const supabase = useSupabaseClient()
+  
+
   const user = useUser()
+   //figure out how to set to null rather than undefined. 
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState(null)
   const [website, setWebsite] = useState(null)
@@ -25,7 +28,7 @@ export default function Account({ session }) {
       let { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
-        .eq('id', user.id)
+        .eq('id', user?.id)
         .single()
 
       if (error && status !== 406) {
@@ -75,7 +78,7 @@ export default function Account({ session }) {
     <div className=" form-control ">
       <div >
         <label htmlFor="email" className='label'>Email</label>
-        <input id="email" type="text" defaultValue={session.user.email}  className='input input-disabled min-w-min'/>
+        <input id="email" type="text" defaultValue={session?.user?.email}  className='input input-disabled min-w-min'/>
       </div>
       <div>
         <label htmlFor="username" className='label'>Username</label>
